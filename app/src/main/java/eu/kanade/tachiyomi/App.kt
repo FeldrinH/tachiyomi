@@ -30,9 +30,6 @@ import eu.kanade.tachiyomi.ui.security.SecureActivityDelegate
 import eu.kanade.tachiyomi.util.system.notification
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.acra.config.httpSender
-import org.acra.ktx.initAcra
-import org.acra.sender.HttpSender
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import uy.kohesive.injekt.Injekt
@@ -63,7 +60,6 @@ open class App : Application(), LifecycleObserver, ImageLoaderFactory {
 
         Injekt.importModule(AppModule(this))
 
-        setupAcra()
         setupNotificationChannels()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
@@ -124,20 +120,6 @@ open class App : Application(), LifecycleObserver, ImageLoaderFactory {
     fun onAppBackgrounded() {
         if (preferences.lockAppAfter().get() >= 0) {
             SecureActivityDelegate.locked = true
-        }
-    }
-
-    protected open fun setupAcra() {
-        if (BuildConfig.FLAVOR != "dev") {
-            initAcra {
-                buildConfigClass = BuildConfig::class.java
-                excludeMatchingSharedPreferencesKeys = arrayOf(".*username.*", ".*password.*", ".*token.*")
-
-                httpSender {
-                    uri = BuildConfig.ACRA_URI
-                    httpMethod = HttpSender.Method.PUT
-                }
-            }
         }
     }
 

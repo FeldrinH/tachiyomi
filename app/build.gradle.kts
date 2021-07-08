@@ -12,9 +12,9 @@ plugins {
     id("com.github.zellius.shortcut-helper")
 }
 
-if (gradle.startParameter.taskRequests.toString().contains("Standard")) {
+/*if (gradle.startParameter.taskRequests.toString().contains("Standard")) {
     apply(plugin = "com.google.gms.google-services")
-}
+}*/
 
 shortcutHelper.setFilePath("./shortcuts.xml")
 
@@ -26,7 +26,7 @@ android {
     ndkVersion = AndroidConfig.ndk
 
     defaultConfig {
-        applicationId = "eu.kanade.tachiyomi"
+        applicationId = "eu.kanade.tachiyomi.feldrinh"
         minSdkVersion(AndroidConfig.minSdk)
         targetSdkVersion(AndroidConfig.targetSdk)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -39,7 +39,7 @@ android {
         buildConfigField("boolean", "INCLUDE_UPDATER", "false")
 
         // Please disable ACRA or use your own instance in forked versions of the project
-        buildConfigField("String", "ACRA_URI", "\"https://tachiyomi.kanade.eu/crash_report\"")
+        // buildConfigField("String", "ACRA_URI", "\"https://tachiyomi.kanade.eu/crash_report\"")
 
         multiDexEnabled = true
 
@@ -60,7 +60,7 @@ android {
     buildTypes {
         named("debug") {
             versionNameSuffix = "-${getCommitCount()}"
-            applicationIdSuffix = ".debug"
+            // applicationIdSuffix = ".debug"
 
             isShrinkResources = true
             isMinifyEnabled = true
@@ -86,7 +86,7 @@ android {
 
     productFlavors {
         create("standard") {
-            buildConfigField("boolean", "INCLUDE_UPDATER", "true")
+            // buildConfigField("boolean", "INCLUDE_UPDATER", "true")
             dimension = "default"
         }
         create("dev") {

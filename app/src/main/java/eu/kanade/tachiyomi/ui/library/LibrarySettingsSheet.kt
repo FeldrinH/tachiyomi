@@ -182,12 +182,13 @@ class LibrarySettingsSheet(
             private val lastChecked = Item.MultiSort(R.string.action_sort_last_checked, this)
             private val unread = Item.MultiSort(R.string.action_filter_unread, this)
             private val latestChapter = Item.MultiSort(R.string.action_sort_latest_chapter, this)
+            private val oldestUnreadChapter = Item.MultiSort(R.string.action_sort_oldest_unread_chapter, this)
             private val chapterFetchDate = Item.MultiSort(R.string.action_sort_chapter_fetch_date, this)
             private val dateAdded = Item.MultiSort(R.string.action_sort_date_added, this)
 
             override val header = null
             override val items =
-                listOf(alphabetically, lastRead, lastChecked, unread, total, latestChapter, chapterFetchDate, dateAdded)
+                listOf(alphabetically, lastRead, lastChecked, unread, total, latestChapter, oldestUnreadChapter, chapterFetchDate, dateAdded)
             override val footer = null
 
             override fun initModels() {
@@ -210,6 +211,8 @@ class LibrarySettingsSheet(
                     if (sorting == SortModeSetting.TOTAL_CHAPTERS) order else Item.MultiSort.SORT_NONE
                 latestChapter.state =
                     if (sorting == SortModeSetting.LATEST_CHAPTER) order else Item.MultiSort.SORT_NONE
+                oldestUnreadChapter.state =
+                    if (sorting == SortModeSetting.OLDEST_UNREAD_CHAPTER) order else Item.MultiSort.SORT_NONE
                 chapterFetchDate.state =
                     if (sorting == SortModeSetting.DATE_FETCHED) order else Item.MultiSort.SORT_NONE
                 dateAdded.state =
@@ -262,6 +265,7 @@ class LibrarySettingsSheet(
                     unread -> SortModeSetting.UNREAD
                     total -> SortModeSetting.TOTAL_CHAPTERS
                     latestChapter -> SortModeSetting.LATEST_CHAPTER
+                    oldestUnreadChapter -> SortModeSetting.OLDEST_UNREAD_CHAPTER
                     chapterFetchDate -> SortModeSetting.DATE_FETCHED
                     dateAdded -> SortModeSetting.DATE_ADDED
                     else -> throw NotImplementedError("Unknown display mode")

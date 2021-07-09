@@ -165,6 +165,16 @@ interface MangaQueries : DbProvider {
         )
         .prepare()
 
+    fun getOldestUnreadChapterManga() = db.get()
+        .listOfObjects(Manga::class.java)
+        .withQuery(
+            RawQuery.builder()
+                .query(getOldestUnreadChapterMangaQuery())
+                .observesTables(MangaTable.TABLE)
+                .build()
+        )
+        .prepare()
+
     fun getChapterFetchDateManga() = db.get()
         .listOfObjects(Manga::class.java)
         .withQuery(

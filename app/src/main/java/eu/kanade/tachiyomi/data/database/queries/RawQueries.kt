@@ -122,6 +122,16 @@ fun getLatestChapterMangaQuery() =
     ORDER by max DESC
 """
 
+fun getOldestUnreadChapterMangaQuery() =
+    """
+    SELECT ${Manga.TABLE}.*, IFNULL(MIN(CASE WHEN ${Chapter.TABLE}.${Chapter.COL_READ} = 0 THEN ${Chapter.TABLE}.${Chapter.COL_DATE_UPLOAD} END), MAX(${Chapter.TABLE}.${Chapter.COL_DATE_UPLOAD})) AS max
+    FROM ${Manga.TABLE}
+    JOIN ${Chapter.TABLE}
+    ON ${Manga.TABLE}.${Manga.COL_ID} = ${Chapter.TABLE}.${Chapter.COL_MANGA_ID}
+    GROUP BY ${Manga.TABLE}.${Manga.COL_ID}
+    ORDER by max DESC
+"""
+
 fun getChapterFetchDateMangaQuery() =
     """
     SELECT ${Manga.TABLE}.*, MAX(${Chapter.TABLE}.${Chapter.COL_DATE_FETCH}) AS max

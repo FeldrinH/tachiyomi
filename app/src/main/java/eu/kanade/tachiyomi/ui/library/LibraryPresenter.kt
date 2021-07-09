@@ -245,6 +245,10 @@ class LibraryPresenter(
             var counter = 0
             db.getLatestChapterManga().executeAsBlocking().associate { it.id!! to counter++ }
         }
+        val oldestUnreadChapterManga by lazy {
+            var counter = 0
+            db.getOldestUnreadChapterManga().executeAsBlocking().associate { it.id!! to counter++ }
+        }
         val chapterFetchDateManga by lazy {
             var counter = 0
             db.getChapterFetchDateManga().executeAsBlocking().associate { it.id!! to counter++ }
@@ -303,6 +307,13 @@ class LibraryPresenter(
                     manga1chapterFetchDate.compareTo(manga2chapterFetchDate)
                 }
                 SortModeSetting.DATE_ADDED -> i2.manga.date_added.compareTo(i1.manga.date_added)
+                SortModeSetting.OLDEST_UNREAD_CHAPTER -> {
+                    val manga1latestChapter = oldestUnreadChapterManga[i1.manga.id!!]
+                        ?: oldestUnreadChapterManga.size
+                    val manga2latestChapter = oldestUnreadChapterManga[i2.manga.id!!]
+                        ?: oldestUnreadChapterManga.size
+                    manga1latestChapter.compareTo(manga2latestChapter)
+                }
             }
         }
 
